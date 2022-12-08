@@ -1,0 +1,39 @@
+# WRONG
+
+
+def is_valid(row, col, num_lines):
+    return 0 <= row < num_lines and 0 <= col < num_lines
+
+number_of_lines = int(input())
+bombs = int(input())
+
+matrix = [list('0' * number_of_lines) for _ in range(number_of_lines)]
+
+for _ in range(bombs):
+    row, col = eval(input())
+    matrix[row][col] = '*'
+
+directions = {
+    'up': (-1, 0),
+    'down': (1, 0),
+    'left': (0, -1),
+    'right': (0, 1),
+    'top left diagonal': (-1, -1),
+    'top right diagonal': (-1, 1),
+    'bottom left diagonal': (1, -1),
+    'bottom right diagonal': (1, 1),
+}
+
+bomb_direction = input()
+row = bomb_direction[1]
+col = bomb_direction[4]
+
+for move_row, move_col in directions.values():
+    current_num = 0
+    check_row, check_col = row + str(move_row), col + str(move_col)
+    if is_valid(check_row, check_col, number_of_lines) and matrix[check_row][check_col] == '*':
+        current_num += 1
+    matrix[row][col] = current_num
+
+for row in matrix:
+    print(*row, sep=' ')
